@@ -1,18 +1,18 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/benjaminkomen/SchipholFlightAnalyser/outbound/schipholClient"
 	"log"
 	"net/http"
 	"os"
 	"time"
-
-	"github.com/gorilla/mux"
 )
 
-var router = mux.NewRouter()
-
 func main() {
+
+	http.HandleFunc("/", flightHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -21,11 +21,23 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Handler:      router,
 		Addr:         fmt.Sprintf("127.0.0.1:%s", port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
 	log.Fatal(srv.ListenAndServe())
+}
+
+func flightHandler(w http.ResponseWriter, r *http.Request) {
+	var client = schipholClient.New()
+
+	flights, err := client.GetFlights(r.Context(), "D")
+	if err != nil {
+		log.Printf("Error obtaining flights")
+		w.WriteHeader(500)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(flights)
 }
