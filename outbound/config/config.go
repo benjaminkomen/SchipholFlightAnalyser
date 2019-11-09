@@ -1,4 +1,4 @@
-package schipholClient
+package config
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func GetConfig() (*Config, error) {
-	configModel, err := doReadConfig("config.yml")
+	configModel, err := doReadConfig("F:/webfiles/github/SchipholFlightAnalyser/outbound/config/config.yml")
 	if err != nil {
 		return nil, err
 	}

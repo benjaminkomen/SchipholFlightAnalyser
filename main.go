@@ -22,8 +22,8 @@ func main() {
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf("127.0.0.1:%s", port),
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 60 * time.Second,
+		ReadTimeout:  60 * time.Second,
 	}
 
 	log.Fatal(srv.ListenAndServe())
@@ -34,7 +34,7 @@ func flightHandler(w http.ResponseWriter, r *http.Request) {
 
 	flights, err := client.GetFlights(r.Context(), "D")
 	if err != nil {
-		log.Printf("Error obtaining flights")
+		log.Printf("error obtaining flights: %s", err)
 		w.WriteHeader(500)
 		return
 	}
