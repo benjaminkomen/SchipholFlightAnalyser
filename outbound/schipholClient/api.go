@@ -6,7 +6,7 @@ import (
 )
 
 type SchipholClient interface {
-	GetFlights(c context.Context, flightDirection string) ([]Flight, error)
+	GetFlights(c context.Context, flightDirection string, scheduleDate string) ([]Flight, error)
 }
 
 func New() SchipholClient {
@@ -18,7 +18,8 @@ type schipholSuccessResponse struct {
 }
 
 type Flight struct {
-	LastUpdatedAt     time.Time `json:"lastUpdatedAt"`
-	FlightName        string    `json:"flightName"`
-	ActualLandingTime time.Time `json:"actualLandingTime"`
+	LastUpdatedAt      time.Time `json:"lastUpdatedAt"`
+	FlightName         string    `json:"flightName"`
+	ActualLandingTime  time.Time `json:"actualLandingTime,omitempty"`  // in case of Arriving flights
+	ActualOffBlockTime time.Time `json:"actualOffBlockTime,omitempty"` // in case of Departing flights
 }

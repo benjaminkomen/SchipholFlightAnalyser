@@ -16,7 +16,7 @@ const timeout = 10 * time.Second
 
 type realSchipholClient struct{}
 
-func (rsc *realSchipholClient) GetFlights(c context.Context, flightDirection string) ([]Flight, error) {
+func (rsc *realSchipholClient) GetFlights(c context.Context, flightDirection string, scheduleDate string) ([]Flight, error) {
 
 	allResultingFlights := []Flight{}
 
@@ -26,7 +26,7 @@ func (rsc *realSchipholClient) GetFlights(c context.Context, flightDirection str
 	}
 
 	// first call
-	resultingFlights, nextLink, err := obtainFlightsForUrl(c, configModel.AppId, configModel.AppKey, allResultingFlights, fmt.Sprintf("https://api.schiphol.nl/public-flights/flights?flightDirection=%s", flightDirection))
+	resultingFlights, nextLink, err := obtainFlightsForUrl(c, configModel.AppId, configModel.AppKey, allResultingFlights, fmt.Sprintf("https://api.schiphol.nl/public-flights/flights?flightDirection=%s&scheduleDate=%s", flightDirection, scheduleDate))
 	if err != nil {
 		return nil, err
 	}
