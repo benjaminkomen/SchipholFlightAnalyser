@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func GetConfig() (*Config, error) {
-	configModel, err := doReadConfig("F:/webfiles/github/SchipholFlightAnalyser/outbound/config/config.yml")
+	configModel, err := doReadConfig("F:/webfiles/github/SchipholFlightAnalyser/outbound/config/config.yml") // TODO figure out why relative path does not work. Windows issue?
 	if err != nil {
 		return nil, err
 	}
